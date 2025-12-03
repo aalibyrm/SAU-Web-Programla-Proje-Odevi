@@ -1,0 +1,171 @@
+@model FitnessCenter.Models.ViewModels.AIRecommendationResultViewModel
+@{
+    ViewData["Title"] = "AI Öneri Sonucu";
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1><i class="bi bi-robot me-3"></i>Kişiselleştirilmiş Programınız</h1>
+        <p class="text-muted mb-0">Yapay zeka tarafından hazırlandı</p>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card ai-recommendation">
+                <div class="card-body">
+                    @if (Model.BMI.HasValue)
+                    {
+                        <div class="alert @GetBMIAlertClass(Model.BMI.Value) mb-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="alert-heading mb-1">
+                                        <i class="bi bi-graph-up me-2"></i>BMI Analizi
+                                    </h5>
+                                    <p class="mb-0">
+                                        BMI Değeriniz: <strong>@Model.BMI.Value.ToString("F1")</strong> - @Model.BMICategory
+                                    </p>
+                                </div>
+                                <div class="text-end">
+                                    @if (Model.Height.HasValue && Model.Weight.HasValue)
+                                    {
+                                        <small class="d-block">@Model.Height cm / @Model.Weight kg</small>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    
+                    <div class="recommendation-content">
+                        @Html.Raw(Markdig.Markdown.ToHtml(Model.Recommendation))
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-person-vcard me-2 text-danger"></i>Profiliniz
+                    </h5>
+                    <hr>
+                    <ul class="list-unstyled mb-0">
+                        @if (Model.Height.HasValue)
+                        {
+                            <li class="mb-2">
+                                <i class="bi bi-rulers text-muted me-2"></i>
+                                <strong>Boy:</strong> @Model.Height cm
+                            </li>
+                        }
+                        @if (Model.Weight.HasValue)
+                        {
+                            <li class="mb-2">
+                                <i class="bi bi-speedometer text-muted me-2"></i>
+                                <strong>Kilo:</strong> @Model.Weight kg
+                            </li>
+                        }
+                        @if (Model.BodyType.HasValue)
+                        {
+                            <li class="mb-2">
+                                <i class="bi bi-person text-muted me-2"></i>
+                                <strong>Vücut Tipi:</strong> @GetBodyTypeName(Model.BodyType.Value)
+                            </li>
+                        }
+                        @if (Model.Goal.HasValue)
+                        {
+                            <li class="mb-2">
+                                <i class="bi bi-bullseye text-muted me-2"></i>
+                                <strong>Hedef:</strong> @GetGoalName(Model.Goal.Value)
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            
+            @if (!string.IsNullOrEmpty(Model.UploadedImageUrl))
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="mb-3"><i class="bi bi-image me-2"></i>Yüklenen Fotoğraf</h6>
+                        <img src="@Model.UploadedImageUrl" alt="Yüklenen fotoğraf" class="img-fluid rounded">
+                    </div>
+                </div>
+            }
+            
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-calendar-plus me-2"></i>Bir Sonraki Adım
+                    </h5>
+                    <p class="text-muted">
+                        Programınızı uygulamak için bir antrenörle randevu alın.
+                    </p>
+                    <a asp-controller="Appointment" asp-action="Create" class="btn btn-danger w-100 mb-2">
+                        <i class="bi bi-calendar-check me-2"></i>Randevu Al
+                    </a>
+                    <a asp-action="Recommendation" class="btn btn-outline-light w-100">
+                        <i class="bi bi-arrow-repeat me-2"></i>Yeni Öneri Al
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .recommendation-content {
+        line-height: 1.8;
+    }
+    .recommendation-content h2 {
+        color: var(--primary-color);
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+    .recommendation-content h3 {
+        color: #333;
+        margin-top: 1.2rem;
+        margin-bottom: 0.8rem;
+        font-size: 1.1rem;
+    }
+    .recommendation-content ul {
+        padding-left: 1.5rem;
+    }
+    .recommendation-content li {
+        margin-bottom: 0.5rem;
+    }
+    .recommendation-content strong {
+        color: var(--primary-color);
+    }
+</style>
+
+@functions {
+    string GetBMIAlertClass(double bmi)
+    {
+        if (bmi < 18.5) return "alert-info";
+        if (bmi < 25) return "alert-success";
+        if (bmi < 30) return "alert-warning";
+        return "alert-danger";
+    }
+    
+    string GetBodyTypeName(FitnessCenter.Models.BodyType bodyType)
+    {
+        if (bodyType == FitnessCenter.Models.BodyType.Ectomorph) return "Ektomorf (İnce yapılı)";
+        if (bodyType == FitnessCenter.Models.BodyType.Mesomorph) return "Mezomorf (Atletik)";
+        if (bodyType == FitnessCenter.Models.BodyType.Endomorph) return "Endomorf (Geniş yapılı)";
+        return bodyType.ToString();
+    }
+    
+    string GetGoalName(FitnessCenter.Models.FitnessGoal goal)
+    {
+        if (goal == FitnessCenter.Models.FitnessGoal.WeightLoss) return "Kilo Verme";
+        if (goal == FitnessCenter.Models.FitnessGoal.MuscleGain) return "Kas Geliştirme";
+        if (goal == FitnessCenter.Models.FitnessGoal.Endurance) return "Kondisyon Artırma";
+        if (goal == FitnessCenter.Models.FitnessGoal.Flexibility) return "Esneklik";
+        if (goal == FitnessCenter.Models.FitnessGoal.GeneralHealth) return "Genel Sağlık";
+        return goal.ToString();
+    }
+}
+

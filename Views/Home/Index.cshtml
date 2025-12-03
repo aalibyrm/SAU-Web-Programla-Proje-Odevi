@@ -1,0 +1,264 @@
+﻿@{
+    ViewData["Title"] = "Ana Sayfa";
+    var services = ViewBag.FeaturedServices as List<FitnessCenter.Models.Service>;
+    var trainers = ViewBag.Trainers as List<FitnessCenter.Models.Trainer>;
+    var gym = ViewBag.Gym as FitnessCenter.Models.Gym;
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4 animate-fadeInUp">
+                    Sağlıklı Yaşamın Kapısı<br>
+                    <span class="text-danger">FitLife</span>'da Açılıyor
+                </h1>
+                <p class="lead mb-4 animate-fadeInUp delay-1">
+                    Profesyonel antrenörlerimiz ve modern ekipmanlarımızla hayalinizdeki vücuda kavuşun.
+                    Kişiselleştirilmiş programlar ve AI destekli önerilerle hedeflerinize ulaşın.
+                </p>
+                <div class="animate-fadeInUp delay-2">
+                    @if (User.Identity?.IsAuthenticated != true)
+                    {
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-danger btn-lg me-3">
+                            <i class="bi bi-person-plus me-2"></i>Hemen Üye Ol
+                        </a>
+                    }
+                    <a asp-controller="Service" asp-action="Index" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-grid me-2"></i>Hizmetlerimiz
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center d-none d-lg-block">
+                <i class="bi bi-heart-pulse display-1 text-danger animate-fadeInUp delay-3" style="font-size: 15rem; opacity: 0.3;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-3">
+                <h2 class="display-5 fw-bold text-danger">500+</h2>
+                <p class="text-muted">Mutlu Üye</p>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <h2 class="display-5 fw-bold text-danger">15+</h2>
+                <p class="text-muted">Uzman Antrenör</p>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <h2 class="display-5 fw-bold text-danger">20+</h2>
+                <p class="text-muted">Farklı Program</p>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <h2 class="display-5 fw-bold text-danger">7/24</h2>
+                <p class="text-muted">Destek</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Hizmetlerimiz</h2>
+            <p class="text-muted">Size en uygun programı seçin</p>
+        </div>
+        <div class="row g-4">
+            @if (services != null)
+            {
+                foreach (var service in services)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card service-card h-100">
+                            <div class="card-body text-center">
+                                <div class="service-icon mx-auto">
+                                    <i class="bi @GetServiceIcon(service.Category)"></i>
+                                </div>
+                                <h5 class="card-title fw-bold">@service.Name</h5>
+                                <p class="card-text text-muted">@service.Description</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="badge bg-secondary">@service.DurationMinutes dk</span>
+                                    <span class="price-tag">@service.Price.ToString("C0", new System.Globalization.CultureInfo("tr-TR"))</span>
+                                </div>
+                                <a asp-controller="Service" asp-action="Details" asp-route-id="@service.Id" class="btn btn-outline-primary mt-3">
+                                    Detaylar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="text-center mt-4">
+            <a asp-controller="Service" asp-action="Index" class="btn btn-primary">
+                <i class="bi bi-grid me-2"></i>Tüm Hizmetleri Gör
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Trainers Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Uzman Antrenörlerimiz</h2>
+            <p class="text-muted">Profesyonel ekibimizle tanışın</p>
+        </div>
+        <div class="row g-4">
+            @if (trainers != null)
+            {
+                foreach (var trainer in trainers)
+                {
+                    <div class="col-md-4">
+                        <div class="card trainer-card h-100">
+                            <div class="trainer-image">
+                                @if (!string.IsNullOrEmpty(trainer.ProfileImageUrl))
+                                {
+                                    <img src="@trainer.ProfileImageUrl" alt="@trainer.FullName">
+                                }
+                                else
+                                {
+                                    <i class="bi bi-person-circle"></i>
+                                }
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title fw-bold">@trainer.FullName</h5>
+                                <p class="text-muted mb-2">
+                                    <i class="bi bi-award me-1"></i>@trainer.ExperienceYears Yıl Deneyim
+                                </p>
+                                <p class="card-text small">@trainer.Specializations</p>
+                                <a asp-controller="Trainer" asp-action="Details" asp-route-id="@trainer.Id" class="btn btn-outline-primary btn-sm">
+                                    Profili Gör
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="text-center mt-4">
+            <a asp-controller="Trainer" asp-action="Index" class="btn btn-primary">
+                <i class="bi bi-people me-2"></i>Tüm Antrenörleri Gör
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- AI Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="fw-bold mb-4">
+                    <i class="bi bi-robot text-danger me-2"></i>
+                    Yapay Zeka Destekli<br>Egzersiz Önerileri
+                </h2>
+                <p class="lead text-muted mb-4">
+                    Boy, kilo ve hedeflerinizi girin, yapay zeka size özel egzersiz ve beslenme programı oluştursun.
+                    Fotoğraf yükleyerek vücut analizinizi yaptırabilirsiniz.
+                </p>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Kişiselleştirilmiş egzersiz programı</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Beslenme önerileri</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>BMI hesaplama ve analiz</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Hedef bazlı program</li>
+                </ul>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="AI" asp-action="Recommendation" class="btn btn-danger btn-lg">
+                        <i class="bi bi-magic me-2"></i>Hemen Dene
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-danger btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap ve Dene
+                    </a>
+                }
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="ai-recommendation p-5">
+                    <i class="bi bi-cpu display-1 text-danger mb-4"></i>
+                    <h4>Akıllı Öneri Sistemi</h4>
+                    <p class="text-muted">Verilerinizi analiz ederek size en uygun programı oluşturuyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+@if (gym != null)
+{
+    <section class="py-5 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-4">İletişim</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="bi bi-geo-alt-fill text-danger me-3 fs-4"></i>
+                            <span>@gym.Address</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-telephone-fill text-danger me-3 fs-4"></i>
+                            <span>@gym.PhoneNumber</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-envelope-fill text-danger me-3 fs-4"></i>
+                            <span>@gym.Email</span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-clock-fill text-danger me-3 fs-4"></i>
+                            <span>@gym.OpeningTime.ToString(@"hh\:mm") - @gym.ClosingTime.ToString(@"hh\:mm")</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="fw-bold mb-4">Hemen Başlayın</h2>
+                    <p class="text-muted mb-4">
+                        Sorularınız mı var? Bize ulaşın veya hemen üye olun!
+                    </p>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Appointment" asp-action="Create" class="btn btn-danger btn-lg">
+                            <i class="bi bi-calendar-plus me-2"></i>Randevu Al
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-danger btn-lg me-3">
+                            <i class="bi bi-person-plus me-2"></i>Üye Ol
+                        </a>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@functions {
+    string GetServiceIcon(FitnessCenter.Models.ServiceCategory category)
+    {
+        return category switch
+        {
+            FitnessCenter.Models.ServiceCategory.Fitness => "bi-lightning-charge",
+            FitnessCenter.Models.ServiceCategory.Yoga => "bi-flower1",
+            FitnessCenter.Models.ServiceCategory.Pilates => "bi-person-arms-up",
+            FitnessCenter.Models.ServiceCategory.Cardio => "bi-heart-pulse",
+            FitnessCenter.Models.ServiceCategory.PersonalTraining => "bi-person-badge",
+            FitnessCenter.Models.ServiceCategory.GroupClass => "bi-people",
+            FitnessCenter.Models.ServiceCategory.Swimming => "bi-water",
+            FitnessCenter.Models.ServiceCategory.Kickbox => "bi-hand-thumbs-up",
+            _ => "bi-star"
+        };
+    }
+}

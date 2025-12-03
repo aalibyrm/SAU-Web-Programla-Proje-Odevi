@@ -1,0 +1,71 @@
+@model IEnumerable<Trainer>
+@{
+    ViewData["Title"] = "Antrenörler";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-people me-2"></i>Antrenörler</h2>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-2"></i>Yeni Antrenör
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Ad Soyad</th>
+                        <th>E-posta</th>
+                        <th>Telefon</th>
+                        <th>Uzmanlık</th>
+                        <th>Deneyim</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var trainer in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@trainer.FullName</strong>
+                            </td>
+                            <td>@trainer.Email</td>
+                            <td>@trainer.PhoneNumber</td>
+                            <td>
+                                <small>@trainer.Specializations</small>
+                            </td>
+                            <td>@trainer.ExperienceYears yıl</td>
+                            <td>
+                                @if (trainer.IsActive)
+                                {
+                                    <span class="badge bg-success">Aktif</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Pasif</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a asp-action="Details" asp-route-id="@trainer.Id" class="btn btn-outline-info" title="Detay">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@trainer.Id" class="btn btn-outline-primary" title="Düzenle">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@trainer.Id" class="btn btn-outline-danger" title="Sil">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
