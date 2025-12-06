@@ -20,3 +20,4 @@ namespace FitnessCenter.Models.ViewModels
 }
 
 
+
