@@ -34,7 +34,7 @@ Bu proje, ASP.NET Core MVC kullanılarak geliştirilmiş bir Spor Salonu (Fitnes
 - **Veritabanı:** SQL Server (LocalDB)
 - **ORM:** Entity Framework Core 8.0
 - **Kimlik Doğrulama:** ASP.NET Core Identity
-- **Frontend:** Bootstrap 5, Bootstrap Icons, jQuery
+- **Frontend:** Bootstrap 5, jQuery
 - **API:** RESTful Web API
 
 ## 📦 Kurulum
