@@ -1,0 +1,127 @@
+@model IEnumerable<SporSalonu.Models.Randevu>
+@{
+    ViewData["Title"] = "Randevu Yönetimi";
+    var seciliDurum = ViewBag.SeciliDurum as string ?? "";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2><i class="bi bi-calendar-check me-2"></i>Randevu Yönetimi</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-action="Index">Admin Panel</a></li>
+                    <li class="breadcrumb-item active">Randevular</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Filtreler -->
+    <div class="card kart-ozel mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="form-label mb-0">Durum:</label>
+                </div>
+                <div class="col-auto">
+                    <select name="durum" class="form-select" onchange="this.form.submit()">
+                        <option value="">Tümü</option>
+                        @if (seciliDurum == "Beklemede") { <option value="Beklemede" selected>Beklemede</option> } else { <option value="Beklemede">Beklemede</option> }
+                        @if (seciliDurum == "Onaylandi") { <option value="Onaylandi" selected>Onaylandı</option> } else { <option value="Onaylandi">Onaylandı</option> }
+                        @if (seciliDurum == "Tamamlandi") { <option value="Tamamlandi" selected>Tamamlandı</option> } else { <option value="Tamamlandi">Tamamlandı</option> }
+                        @if (seciliDurum == "IptalEdildi") { <option value="IptalEdildi" selected>İptal Edildi</option> } else { <option value="IptalEdildi">İptal Edildi</option> }
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card kart-ozel">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Üye</th>
+                            <th>Antrenör</th>
+                            <th>Hizmet</th>
+                            <th>Tarih</th>
+                            <th>Saat</th>
+                            <th>Ücret</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var randevu in Model)
+                        {
+                            <tr>
+                                <td>@randevu.Id</td>
+                                <td>
+                                    <strong>@randevu.Uye?.TamAd</strong>
+                                    <br><small class="text-muted">@randevu.Uye?.Email</small>
+                                </td>
+                                <td>@randevu.Antrenor?.TamAd</td>
+                                <td>@randevu.Hizmet?.Ad</td>
+                                <td>
+                                    @randevu.Tarih.ToString("dd MMM yyyy")
+                                    <br><small class="text-muted">@randevu.Tarih.ToString("dddd")</small>
+                                </td>
+                                <td>@randevu.BaslangicSaati.ToString(@"hh\:mm") - @randevu.BitisSaati.ToString(@"hh\:mm")</td>
+                                <td>@randevu.OdenenTutar.ToString("C")</td>
+                                <td>
+                                    @switch (randevu.Durum)
+                                    {
+                                        case SporSalonu.Models.RandevuDurumu.Beklemede:
+                                            <span class="badge bg-warning text-dark">Beklemede</span>
+                                            break;
+                                        case SporSalonu.Models.RandevuDurumu.Onaylandi:
+                                            <span class="badge bg-success">Onaylandı</span>
+                                            break;
+                                        case SporSalonu.Models.RandevuDurumu.IptalEdildi:
+                                            <span class="badge bg-danger">İptal Edildi</span>
+                                            break;
+                                        case SporSalonu.Models.RandevuDurumu.Tamamlandi:
+                                            <span class="badge bg-info">Tamamlandı</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @if (randevu.Durum == SporSalonu.Models.RandevuDurumu.Beklemede)
+                                    {
+                                        <form asp-action="RandevuOnayla" asp-route-id="@randevu.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success" title="Onayla">
+                                                <i class="bi bi-check-lg"></i>
+                                            </button>
+                                        </form>
+                                        <form asp-action="RandevuIptal" asp-route-id="@randevu.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-danger" title="İptal Et">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    @if (randevu.Durum == SporSalonu.Models.RandevuDurumu.Onaylandi)
+                                    {
+                                        <form asp-action="RandevuTamamla" asp-route-id="@randevu.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-info" title="Tamamla">
+                                                <i class="bi bi-check-circle"></i>
+                                            </button>
+                                        </form>
+                                        <form asp-action="RandevuIptal" asp-route-id="@randevu.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-danger" title="İptal Et">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,88 @@
+@model SporSalonu.Models.ViewModels.ProfilDuzenleViewModel
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card kart-ozel">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-person me-2"></i>Profil Bilgilerim</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Profil" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Ad" class="form-label"></label>
+                                <input asp-for="Ad" class="form-control" />
+                                <span asp-validation-for="Ad" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Soyad" class="form-label"></label>
+                                <input asp-for="Soyad" class="form-control" />
+                                <span asp-validation-for="Soyad" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Telefon" class="form-label"></label>
+                                <input asp-for="Telefon" class="form-control" />
+                                <span asp-validation-for="Telefon" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="DogumTarihi" class="form-label"></label>
+                                <input asp-for="DogumTarihi" class="form-control" type="date" />
+                                <span asp-validation-for="DogumTarihi" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="BoyCm" class="form-label"></label>
+                                <div class="input-group">
+                                    <input asp-for="BoyCm" class="form-control" type="number" />
+                                    <span class="input-group-text">cm</span>
+                                </div>
+                                <span asp-validation-for="BoyCm" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="KiloKg" class="form-label"></label>
+                                <div class="input-group">
+                                    <input asp-for="KiloKg" class="form-control" type="number" step="0.1" />
+                                    <span class="input-group-text">kg</span>
+                                </div>
+                                <span asp-validation-for="KiloKg" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Cinsiyet" class="form-label"></label>
+                                <select asp-for="Cinsiyet" class="form-select" asp-items="Html.GetEnumSelectList<SporSalonu.Models.Cinsiyet>()">
+                                    <option value="">Seçiniz</option>
+                                </select>
+                                <span asp-validation-for="Cinsiyet" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+                            <button type="submit" class="btn btn-ozel">
+                                <i class="bi bi-check-lg me-1"></i>Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "Hakkımızda";
+    var salon = ViewBag.Salon as SporSalonu.Models.Salon;
+}
+
+<div class="container py-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-4">Gold Fitness</h2>
+            <p class="lead text-muted">
+                2020 yılından bu yana Sakarya'da hizmet veren Gold Fitness, 
+                modern ekipmanları ve uzman antrenör kadrosuyla sağlıklı yaşam yolculuğunuzda yanınızda.
+            </p>
+            <p>
+                Misyonumuz, her bireyin fitness hedeflerine ulaşmasına yardımcı olmak ve 
+                sağlıklı bir yaşam tarzını benimsemelerini sağlamaktır.
+            </p>
+            <p>
+                Yapay zeka destekli kişiselleştirilmiş egzersiz ve diyet önerileri, 
+                online randevu sistemi ve profesyonel antrenörlerimizle farkı yaşayın!
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                 style="width: 300px; height: 300px;">
+                <i class="bi bi-heart-pulse-fill text-primary" style="font-size: 8rem;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card kart-ozel text-center p-4">
+                <h2 class="display-4 fw-bold text-primary">500+</h2>
+                <p class="text-muted mb-0">Mutlu Üye</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card kart-ozel text-center p-4">
+                <h2 class="display-4 fw-bold text-success">10+</h2>
+                <p class="text-muted mb-0">Uzman Antrenör</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card kart-ozel text-center p-4">
+                <h2 class="display-4 fw-bold text-warning">5+</h2>
+                <p class="text-muted mb-0">Yıllık Deneyim</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card kart-ozel text-center p-4">
+                <h2 class="display-4 fw-bold text-info">1000+</h2>
+                <p class="text-muted mb-0">Tamamlanan Seans</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card kart-ozel">
+        <div class="card-body p-5">
+            <h4 class="mb-4 text-center">Neden Gold Fitness?</h4>
+            <div class="row g-4">
+                <div class="col-md-4 text-center">
+                    <i class="bi bi-check-circle text-success" style="font-size: 3rem;"></i>
+                    <h5 class="mt-3">Profesyonel Kadro</h5>
+                    <p class="text-muted">Sertifikalı ve deneyimli antrenörler</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="bi bi-robot text-primary" style="font-size: 3rem;"></i>
+                    <h5 class="mt-3">Yapay Zeka Desteği</h5>
+                    <p class="text-muted">Kişiselleştirilmiş program önerileri</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="bi bi-calendar-check text-warning" style="font-size: 3rem;"></i>
+                    <h5 class="mt-3">Online Randevu</h5>
+                    <p class="text-muted">Kolay ve hızlı randevu sistemi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Erişim Engellendi";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card kart-ozel">
+                <div class="card-body p-5">
+                    <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-shield-x text-danger" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="fw-bold text-danger">Erişim Engellendi</h2>
+                    <p class="text-muted mb-4">
+                        Bu sayfaya erişim yetkiniz bulunmamaktadır.
+                    </p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-ozel">
+                        <i class="bi bi-house me-2"></i>Ana Sayfaya Dön
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

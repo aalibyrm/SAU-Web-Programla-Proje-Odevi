@@ -1,0 +1,89 @@
+@{
+    ViewData["Title"] = "AI Öneri Sistemi";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+            <i class="bi bi-robot text-success" style="font-size: 3rem;"></i>
+        </div>
+        <h2 class="fw-bold">Yapay Zeka Öneri Sistemi</h2>
+        <p class="text-muted">Kişiselleştirilmiş fitness önerileri ve görsel dönüşüm</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-5">
+            <div class="card kart-ozel h-100 text-center">
+                <div class="card-body p-5">
+                    <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-activity text-primary" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h4 class="card-title">Egzersiz Programı</h4>
+                    <p class="card-text text-muted">
+                        Boy, kilo ve hedeflerinize göre size özel haftalık egzersiz programı oluşturun.
+                    </p>
+                    <ul class="list-unstyled text-start small text-muted mb-4">
+                        <li><i class="bi bi-check text-success me-2"></i>Kilo Verme Programı</li>
+                        <li><i class="bi bi-check text-success me-2"></i>Kas Yapma Programı</li>
+                        <li><i class="bi bi-check text-success me-2"></i>Formda Kalma Programı</li>
+                    </ul>
+                    <a asp-action="EgzersizOnerisi" class="btn btn-ozel btn-lg">
+                        <i class="bi bi-arrow-right me-2"></i>Başla
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card kart-ozel h-100 text-center border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <i class="bi bi-stars me-1"></i> Yeni Özellik!
+                </div>
+                <div class="card-body p-5">
+                    <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-image text-danger" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h4 class="card-title">Görsel Dönüşüm</h4>
+                    <p class="card-text text-muted">
+                        Fotoğrafınızı yükleyin, hedefinize ulaştığınızda nasıl görüneceğinizi AI ile görün!
+                    </p>
+                    <ul class="list-unstyled text-start small text-muted mb-4">
+                        <li><i class="bi bi-camera text-primary me-2"></i>Fotoğraf Yükle</li>
+                        <li><i class="bi bi-magic text-primary me-2"></i>AI Analizi</li>
+                        <li><i class="bi bi-person-check text-primary me-2"></i>Hedef Görsel</li>
+                    </ul>
+                    <a asp-action="GorselDonusum" class="btn btn-danger btn-lg">
+                        <i class="bi bi-camera me-2"></i>Dene
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-light border-0">
+                <div class="card-body p-4">
+                    <h5><i class="bi bi-info-circle me-2"></i>Nasıl Çalışır?</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Egzersiz Programı:</h6>
+                            <ol class="mb-3">
+                                <li>Fiziksel özelliklerinizi girin</li>
+                                <li>Hedefinizi seçin (kilo ver, kas yap, formda kal)</li>
+                                <li>AI size özel program oluştursun</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-danger">Görsel Dönüşüm:</h6>
+                            <ol class="mb-0">
+                                <li>Fotoğrafınızı yükleyin</li>
+                                <li>Hedefinizi seçin</li>
+                                <li>AI hedefe ulaştığınızdaki halinizi göstersin</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

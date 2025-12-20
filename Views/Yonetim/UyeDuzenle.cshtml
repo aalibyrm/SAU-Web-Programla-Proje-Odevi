@@ -1,0 +1,133 @@
+@model SporSalonu.Models.ViewModels.UyeDuzenleViewModel
+@{
+    ViewData["Title"] = "Üye Düzenle";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card kart-ozel">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-pencil me-2"></i>Üye Düzenle</h5>
+                </div>
+                <div class="card-body p-4">
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-action="Index">Admin Panel</a></li>
+                            <li class="breadcrumb-item"><a asp-action="Uyeler">Üyeler</a></li>
+                            <li class="breadcrumb-item active">Düzenle</li>
+                        </ol>
+                    </nav>
+
+                    <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+                    <form asp-action="UyeDuzenle" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Ad" class="form-label">
+                                    <i class="bi bi-person me-1"></i>Ad <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="Ad" class="form-control" placeholder="Adı girin" />
+                                <span asp-validation-for="Ad" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Soyad" class="form-label">
+                                    <i class="bi bi-person me-1"></i>Soyad <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="Soyad" class="form-control" placeholder="Soyadı girin" />
+                                <span asp-validation-for="Soyad" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Eposta" class="form-label">
+                                    <i class="bi bi-envelope me-1"></i>E-posta <span class="text-danger">*</span>
+                                </label>
+                                <input asp-for="Eposta" class="form-control" type="email" placeholder="ornek@email.com" />
+                                <span asp-validation-for="Eposta" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Telefon" class="form-label">
+                                    <i class="bi bi-telephone me-1"></i>Telefon
+                                </label>
+                                <input asp-for="Telefon" class="form-control" placeholder="05XX XXX XX XX" />
+                                <span asp-validation-for="Telefon" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Cinsiyet" class="form-label">
+                                    <i class="bi bi-gender-ambiguous me-1"></i>Cinsiyet
+                                </label>
+                                <select asp-for="Cinsiyet" class="form-select" asp-items="Html.GetEnumSelectList<SporSalonu.Models.Cinsiyet>()">
+                                    <option value="">-- Seçiniz --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="DogumTarihi" class="form-label">
+                                    <i class="bi bi-calendar me-1"></i>Doğum Tarihi
+                                </label>
+                                <input asp-for="DogumTarihi" class="form-control" type="date" />
+                                <span asp-validation-for="DogumTarihi" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="BoyCm" class="form-label">
+                                    <i class="bi bi-rulers me-1"></i>Boy (cm)
+                                </label>
+                                <input asp-for="BoyCm" class="form-control" type="number" placeholder="175" />
+                                <span asp-validation-for="BoyCm" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="KiloKg" class="form-label">
+                                    <i class="bi bi-speedometer me-1"></i>Kilo (kg)
+                                </label>
+                                <input asp-for="KiloKg" class="form-control" type="number" step="0.1" placeholder="70" />
+                                <span asp-validation-for="KiloKg" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Şifre Değişikliği:</strong> Şifreyi değiştirmek istemiyorsanız bu alanı boş bırakın.
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="YeniSifre" class="form-label">
+                                <i class="bi bi-lock me-1"></i>Yeni Şifre
+                            </label>
+                            <input asp-for="YeniSifre" class="form-control" type="password" placeholder="Boş bırakılırsa değişmez" />
+                            <span asp-validation-for="YeniSifre" class="text-danger"></span>
+                            <small class="text-muted">En az 6 karakter olmalıdır.</small>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Uyeler" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Geri
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-check-lg me-1"></i>Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

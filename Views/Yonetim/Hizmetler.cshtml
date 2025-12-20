@@ -1,0 +1,76 @@
+@model IEnumerable<SporSalonu.Models.Hizmet>
+@{
+    ViewData["Title"] = "Hizmet Yönetimi";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2><i class="bi bi-list-check me-2"></i>Hizmet Yönetimi</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-action="Index">Admin Panel</a></li>
+                    <li class="breadcrumb-item active">Hizmetler</li>
+                </ol>
+            </nav>
+        </div>
+        <a asp-action="HizmetEkle" class="btn btn-ozel">
+            <i class="bi bi-plus-lg me-1"></i>Yeni Hizmet Ekle
+        </a>
+    </div>
+
+    <div class="card kart-ozel">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Hizmet Adı</th>
+                            <th>Açıklama</th>
+                            <th>Süre</th>
+                            <th>Ücret</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var hizmet in Model)
+                        {
+                            <tr>
+                                <td>@hizmet.Id</td>
+                                <td><strong>@hizmet.Ad</strong></td>
+                                <td class="text-muted small">@(hizmet.Aciklama?.Length > 50 ? hizmet.Aciklama.Substring(0, 50) + "..." : hizmet.Aciklama)</td>
+                                <td>@hizmet.SureDakika dk</td>
+                                <td>@hizmet.Ucret.ToString("C")</td>
+                                <td>
+                                    @if (hizmet.AktifMi)
+                                    {
+                                        <span class="badge bg-success">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Pasif</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-action="HizmetDuzenle" asp-route-id="@hizmet.Id" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form asp-action="HizmetSil" asp-route-id="@hizmet.Id" method="post" class="d-inline"
+                                          onsubmit="return confirm('Bu hizmeti silmek istediğinize emin misiniz?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

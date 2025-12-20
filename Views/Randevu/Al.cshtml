@@ -1,0 +1,211 @@
+@model SporSalonu.Models.ViewModels.RandevuOlusturViewModel
+@{
+    ViewData["Title"] = "Randevu Al";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card kart-ozel">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-calendar-plus me-2"></i>Yeni Randevu Al</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Al" method="post" id="randevuForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <!-- Hizmet Seçimi -->
+                        <div class="mb-4">
+                            <label asp-for="HizmetId" class="form-label fw-bold">
+                                <i class="bi bi-list-check me-1"></i>Hizmet Seçin
+                            </label>
+                            <select asp-for="HizmetId" class="form-select form-select-lg" asp-items="Model.Hizmetler" id="hizmetSecim">
+                                <option value="">-- Hizmet Seçin --</option>
+                            </select>
+                            <span asp-validation-for="HizmetId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Antrenör Seçimi -->
+                        <div class="mb-4">
+                            <label asp-for="AntrenorId" class="form-label fw-bold">
+                                <i class="bi bi-person me-1"></i>Antrenör Seçin
+                            </label>
+                            <select asp-for="AntrenorId" class="form-select form-select-lg" id="antrenorSecim" disabled>
+                                <option value="">-- Önce hizmet seçin --</option>
+                            </select>
+                            <span asp-validation-for="AntrenorId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Tarih Seçimi -->
+                        <div class="mb-4">
+                            <label asp-for="Tarih" class="form-label fw-bold">
+                                <i class="bi bi-calendar me-1"></i>Tarih Seçin
+                            </label>
+                            <input asp-for="Tarih" type="date" class="form-control form-control-lg" id="tarihSecim" 
+                                   min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" disabled />
+                            <span asp-validation-for="Tarih" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Saat Seçimi -->
+                        <div class="mb-4">
+                            <label asp-for="SecilenSaat" class="form-label fw-bold">
+                                <i class="bi bi-clock me-1"></i>Saat Seçin
+                            </label>
+                            <select asp-for="SecilenSaat" class="form-select form-select-lg" id="saatSecim" disabled>
+                                <option value="">-- Önce tarih seçin --</option>
+                            </select>
+                            <span asp-validation-for="SecilenSaat" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Notlar -->
+                        <div class="mb-4">
+                            <label asp-for="Notlar" class="form-label fw-bold">
+                                <i class="bi bi-chat-text me-1"></i>Notlar (İsteğe bağlı)
+                            </label>
+                            <textarea asp-for="Notlar" class="form-control" rows="3" 
+                                      placeholder="Varsa özel isteklerinizi yazabilirsiniz..."></textarea>
+                            <span asp-validation-for="Notlar" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Özet Kartı -->
+                        <div class="card bg-light mb-4" id="ozetKart" style="display: none;">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="bi bi-info-circle me-1"></i>Randevu Özeti</h6>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <small class="text-muted">Hizmet:</small>
+                                        <p class="mb-1 fw-bold" id="ozetHizmet">-</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">Antrenör:</small>
+                                        <p class="mb-1 fw-bold" id="ozetAntrenor">-</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">Tarih:</small>
+                                        <p class="mb-1 fw-bold" id="ozetTarih">-</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">Saat:</small>
+                                        <p class="mb-0 fw-bold" id="ozetSaat">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Geri
+                            </a>
+                            <button type="submit" class="btn btn-ozel btn-lg" id="onaylaBtn" disabled>
+                                <i class="bi bi-check-lg me-1"></i>Randevu Al
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            // Hizmet seçildiğinde antrenörleri getir
+            $('#hizmetSecim').change(function() {
+                var hizmetId = $(this).val();
+                var antrenorSelect = $('#antrenorSecim');
+                
+                if (hizmetId) {
+                    $.get('/Randevu/HizmeteGoreAntrenorler', { hizmetId: hizmetId }, function(data) {
+                        antrenorSelect.empty().append('<option value="">-- Antrenör Seçin --</option>');
+                        $.each(data, function(i, item) {
+                            antrenorSelect.append($('<option>', { value: item.value, text: item.text }));
+                        });
+                        antrenorSelect.prop('disabled', false);
+                    });
+                    $('#ozetHizmet').text($('#hizmetSecim option:selected').text());
+                } else {
+                    antrenorSelect.empty().append('<option value="">-- Önce hizmet seçin --</option>').prop('disabled', true);
+                }
+                // Reset sonraki alanları
+                $('#tarihSecim').prop('disabled', true).val('');
+                $('#saatSecim').empty().append('<option value="">-- Önce tarih seçin --</option>').prop('disabled', true);
+                kontrolEt();
+            });
+
+            // Antrenör seçildiğinde tarihi aktif et
+            $('#antrenorSecim').change(function() {
+                var antrenorId = $(this).val();
+                if (antrenorId) {
+                    $('#tarihSecim').prop('disabled', false);
+                    $('#ozetAntrenor').text($('#antrenorSecim option:selected').text());
+                } else {
+                    $('#tarihSecim').prop('disabled', true).val('');
+                }
+                $('#saatSecim').empty().append('<option value="">-- Önce tarih seçin --</option>').prop('disabled', true);
+                kontrolEt();
+            });
+
+            // Tarih seçildiğinde uygun saatleri getir
+            $('#tarihSecim').change(function() {
+                var tarih = $(this).val();
+                var antrenorId = $('#antrenorSecim').val();
+                var hizmetId = $('#hizmetSecim').val();
+                var saatSelect = $('#saatSecim');
+                
+                if (tarih && antrenorId && hizmetId) {
+                    $.get('/Randevu/UygunSaatleriGetir', { 
+                        antrenorId: antrenorId, 
+                        tarih: tarih, 
+                        hizmetId: hizmetId 
+                    }, function(data) {
+                        saatSelect.empty();
+                        if (data.length > 0) {
+                            saatSelect.append('<option value="">-- Saat Seçin --</option>');
+                            $.each(data, function(i, item) {
+                                saatSelect.append($('<option>', { value: item.value, text: item.text }));
+                            });
+                            saatSelect.prop('disabled', false);
+                        } else {
+                            saatSelect.append('<option value="">Bu tarihte uygun saat bulunmuyor</option>');
+                        }
+                    });
+                    
+                    var tarihObj = new Date(tarih);
+                    var gun = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+                    $('#ozetTarih').text(tarihObj.toLocaleDateString('tr-TR') + ' ' + gun[tarihObj.getDay()]);
+                }
+                kontrolEt();
+            });
+
+            // Saat seçildiğinde özeti güncelle
+            $('#saatSecim').change(function() {
+                var saat = $(this).val();
+                if (saat) {
+                    $('#ozetSaat').text($('#saatSecim option:selected').text());
+                }
+                kontrolEt();
+            });
+
+            function kontrolEt() {
+                var hizmet = $('#hizmetSecim').val();
+                var antrenor = $('#antrenorSecim').val();
+                var tarih = $('#tarihSecim').val();
+                var saat = $('#saatSecim').val();
+                
+                if (hizmet && antrenor && tarih && saat) {
+                    $('#onaylaBtn').prop('disabled', false);
+                    $('#ozetKart').slideDown();
+                } else {
+                    $('#onaylaBtn').prop('disabled', true);
+                    if (!hizmet) $('#ozetKart').slideUp();
+                }
+            }
+        });
+    </script>
+}
+
+

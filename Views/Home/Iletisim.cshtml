@@ -1,0 +1,98 @@
+@{
+    ViewData["Title"] = "İletişim";
+    var salon = ViewBag.Salon as SporSalonu.Models.Salon;
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">İletişim</h2>
+        <p class="text-muted">Bize ulaşın</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card kart-ozel h-100">
+                <div class="card-body p-5">
+                    <h4 class="mb-4"><i class="bi bi-geo-alt me-2 text-primary"></i>Adres ve İletişim</h4>
+                    
+                    @if (salon != null)
+                    {
+                        <div class="mb-4">
+                            <h5 class="text-primary">@salon.Ad</h5>
+                            <p class="mb-2"><i class="bi bi-pin-map me-2"></i>@salon.Adres</p>
+                            <p class="mb-2"><i class="bi bi-telephone me-2"></i>@salon.Telefon</p>
+                            <p class="mb-0"><i class="bi bi-envelope me-2"></i>info@goldfitness.com</p>
+                        </div>
+
+                        <hr>
+
+                        <h5 class="mb-3"><i class="bi bi-clock me-2 text-info"></i>Çalışma Saatleri</h5>
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td>Pazartesi - Cuma</td>
+                                    <td class="text-end fw-bold">@salon.AcilisSaati.ToString(@"hh\:mm") - @salon.KapanisSaati.ToString(@"hh\:mm")</td>
+                                </tr>
+                                <tr>
+                                    <td>Cumartesi</td>
+                                    <td class="text-end fw-bold">09:00 - 20:00</td>
+                                </tr>
+                                <tr>
+                                    <td>Pazar</td>
+                                    <td class="text-end fw-bold">10:00 - 18:00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                    <hr>
+
+                    <h5 class="mb-3"><i class="bi bi-share me-2 text-success"></i>Sosyal Medya</h5>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-primary"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="btn btn-outline-info"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-danger"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-success"><i class="bi bi-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card kart-ozel h-100">
+                <div class="card-body p-5">
+                    <h4 class="mb-4"><i class="bi bi-send me-2 text-primary"></i>Bize Yazın</h4>
+                    
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Ad Soyad</label>
+                            <input type="text" class="form-control" placeholder="Adınız Soyadınız">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">E-posta</label>
+                            <input type="email" class="form-control" placeholder="ornek@email.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Konu</label>
+                            <select class="form-select">
+                                <option>Genel Bilgi</option>
+                                <option>Üyelik</option>
+                                <option>Randevu</option>
+                                <option>Şikayet/Öneri</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Mesajınız</label>
+                            <textarea class="form-control" rows="4" placeholder="Mesajınızı yazın..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-ozel w-100">
+                            <i class="bi bi-send me-2"></i>Gönder
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

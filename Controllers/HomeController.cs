@@ -1,41 +1,68 @@
-using FitnessCenter.Data;
-using FitnessCenter.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SporSalonu.Data;
+using SporSalonu.Models;
 using System.Diagnostics;
 
-namespace FitnessCenter.Controllers
+namespace SporSalonu.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
+        private readonly ILogger<HomeController> _gunluk;
+        private readonly UygulamaDbContext _veritabani;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> gunluk, UygulamaDbContext veritabani)
         {
-            _logger = logger;
-            _context = context;
+            _gunluk = gunluk;
+            _veritabani = veritabani;
         }
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.FeaturedServices = await _context.Services
-                .Where(s => s.IsActive)
+            ViewBag.Salon = await _veritabani.Salonlar.FirstOrDefaultAsync(s => s.AktifMi);
+            ViewBag.Hizmetler = await _veritabani.Hizmetler
+                .Where(h => h.AktifMi)
                 .Take(6)
                 .ToListAsync();
-
-            ViewBag.Trainers = await _context.Trainers
-                .Where(t => t.IsActive)
+            ViewBag.Antrenorler = await _veritabani.Antrenorler
+                .Where(a => a.AktifMi)
                 .Take(3)
                 .ToListAsync();
-
-            ViewBag.Gym = await _context.Gyms.FirstOrDefaultAsync(g => g.IsActive);
 
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Hizmetler()
         {
+            var hizmetler = await _veritabani.Hizmetler
+                .Where(h => h.AktifMi)
+                .Include(h => h.AntrenorHizmetleri)
+                    .ThenInclude(ah => ah.Antrenor)
+                .ToListAsync();
+
+            return View(hizmetler);
+        }
+
+        public async Task<IActionResult> Antrenorler()
+        {
+            var antrenorler = await _veritabani.Antrenorler
+                .Where(a => a.AktifMi)
+                .Include(a => a.AntrenorHizmetleri)
+                    .ThenInclude(ah => ah.Hizmet)
+                .ToListAsync();
+
+            return View(antrenorler);
+        }
+
+        public async Task<IActionResult> Iletisim()
+        {
+            ViewBag.Salon = await _veritabani.Salonlar.FirstOrDefaultAsync(s => s.AktifMi);
+            return View();
+        }
+
+        public async Task<IActionResult> Hakkimizda()
+        {
+            ViewBag.Salon = await _veritabani.Salonlar.FirstOrDefaultAsync(s => s.AktifMi);
             return View();
         }
 

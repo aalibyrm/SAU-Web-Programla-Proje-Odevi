@@ -1,0 +1,115 @@
+@model SporSalonu.Models.Antrenor
+@{
+    ViewData["Title"] = "Antrenör Ekle";
+    var hizmetler = ViewBag.Hizmetler as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> ?? new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card kart-ozel">
+                <div class="card-header bg-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-person-plus me-2"></i>Yeni Antrenör Ekle</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="AntrenorEkle" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Ad" class="form-label"></label>
+                                <input asp-for="Ad" class="form-control" placeholder="Adı" />
+                                <span asp-validation-for="Ad" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Soyad" class="form-label"></label>
+                                <input asp-for="Soyad" class="form-control" placeholder="Soyadı" />
+                                <span asp-validation-for="Soyad" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Eposta" class="form-label"></label>
+                                <input asp-for="Eposta" class="form-control" placeholder="email@ornek.com" />
+                                <span asp-validation-for="Eposta" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Telefon" class="form-label"></label>
+                                <input asp-for="Telefon" class="form-control" placeholder="05XX XXX XX XX" />
+                                <span asp-validation-for="Telefon" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="UzmanlikAlanlari" class="form-label"></label>
+                            <input asp-for="UzmanlikAlanlari" class="form-control" placeholder="Örn: Fitness, Yoga, Pilates" />
+                            <span asp-validation-for="UzmanlikAlanlari" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="MesaiBaslangic" class="form-label"></label>
+                                <input asp-for="MesaiBaslangic" class="form-control" type="time" />
+                                <span asp-validation-for="MesaiBaslangic" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="MesaiBitis" class="form-label"></label>
+                                <input asp-for="MesaiBitis" class="form-control" type="time" />
+                                <span asp-validation-for="MesaiBitis" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SalonId" class="form-label"></label>
+                            <select asp-for="SalonId" class="form-select" asp-items="ViewBag.Salonlar">
+                                <option value="">Salon Seçin</option>
+                            </select>
+                            <span asp-validation-for="SalonId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Vereceği Hizmetler</label>
+                            <div class="row">
+                                @foreach (var hizmet in hizmetler)
+                                {
+                                    <div class="col-md-4 mb-2">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="secilenHizmetler" value="@hizmet.Value" 
+                                                   class="form-check-input" id="hizmet_@hizmet.Value" />
+                                            <label class="form-check-label" for="hizmet_@hizmet.Value">@hizmet.Text</label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input asp-for="AktifMi" class="form-check-input" />
+                                <label asp-for="AktifMi" class="form-check-label"></label>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Antrenorler" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Geri
+                            </a>
+                            <button type="submit" class="btn btn-ozel">
+                                <i class="bi bi-check-lg me-1"></i>Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

@@ -1,0 +1,149 @@
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-speedometer2 me-2"></i>Admin Panel</h2>
+        <span class="badge bg-primary">Hoş geldiniz, @User.Identity?.Name?.Split('@')[0]</span>
+    </div>
+
+    <!-- İstatistik Kartları -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card kart-ozel border-start border-primary border-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small">Toplam Üye</p>
+                            <h3 class="mb-0">@ViewBag.ToplamUye</h3>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 p-3 rounded">
+                            <i class="bi bi-people text-primary" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card kart-ozel border-start border-success border-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small">Antrenör</p>
+                            <h3 class="mb-0">@ViewBag.ToplamAntrenor</h3>
+                        </div>
+                        <div class="bg-success bg-opacity-10 p-3 rounded">
+                            <i class="bi bi-person-badge text-success" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card kart-ozel border-start border-info border-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small">Hizmet</p>
+                            <h3 class="mb-0">@ViewBag.ToplamHizmet</h3>
+                        </div>
+                        <div class="bg-info bg-opacity-10 p-3 rounded">
+                            <i class="bi bi-list-check text-info" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card kart-ozel border-start border-warning border-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1 small">Bekleyen Randevu</p>
+                            <h3 class="mb-0">@ViewBag.BekleyenRandevu</h3>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 p-3 rounded">
+                            <i class="bi bi-hourglass-split text-warning" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hızlı Erişim Menüsü -->
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card kart-ozel h-100">
+                <div class="card-body text-center p-4">
+                    <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-list-check text-primary" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5>Hizmet Yönetimi</h5>
+                    <p class="text-muted small">Hizmetleri ekle, düzenle, sil</p>
+                    <a asp-action="Hizmetler" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-right me-1"></i>Git
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card kart-ozel h-100">
+                <div class="card-body text-center p-4">
+                    <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-person-badge text-success" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5>Antrenör Yönetimi</h5>
+                    <p class="text-muted small">Antrenörleri yönet</p>
+                    <a asp-action="Antrenorler" class="btn btn-outline-success">
+                        <i class="bi bi-arrow-right me-1"></i>Git
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card kart-ozel h-100">
+                <div class="card-body text-center p-4">
+                    <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-calendar-check text-warning" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5>Randevu Yönetimi</h5>
+                    <p class="text-muted small">Randevuları onayla/iptal et</p>
+                    <a asp-action="Randevular" class="btn btn-outline-warning">
+                        <i class="bi bi-arrow-right me-1"></i>Git
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card kart-ozel h-100">
+                <div class="card-body text-center p-4">
+                    <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-people text-info" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5>Üye Yönetimi</h5>
+                    <p class="text-muted small">Üyeleri ekle, düzenle, sil</p>
+                    <a asp-action="Uyeler" class="btn btn-outline-info">
+                        <i class="bi bi-arrow-right me-1"></i>Git
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card kart-ozel h-100">
+                <div class="card-body text-center p-4">
+                    <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-calendar3 text-danger" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h5>Bugünkü Randevular</h5>
+                    <p class="text-muted small">Bugün: @ViewBag.BugunkuRandevu randevu</p>
+                    <a asp-action="Randevular" class="btn btn-outline-danger">
+                        <i class="bi bi-arrow-right me-1"></i>Git
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
